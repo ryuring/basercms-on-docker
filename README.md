@@ -3,20 +3,20 @@
 ## コンテナの起動
 
 ```
-$ docker composer up -d
+$ docker-compose up -d
 ```
 
 ## コンテナの停止
 
 ```
-$ docker composer stop
+$ docker-compose stop
 ```
 
 
 ## コンテナの削除
 
 ```
-$ docker composer rm
+$ docker-compose rm
 ```
 
 ## コンテナの状態の確認 
