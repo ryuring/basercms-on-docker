@@ -1,0 +1,51 @@
+--- BcManagerComponent.php.org	2017-11-23 04:22:20.000000000 +0000
++++ BcManagerComponent.php	2017-11-23 08:56:33.000000000 +0000
+@@ -197,7 +197,9 @@ class BcManagerComponent extends Compone
+ 				'database' => $config['database'],
+ 				'schema' => $config['schema'],
+ 				'prefix' => $config['prefix'],
+-				'encoding' => $config['encoding']));
++				'encoding' => $config['encoding'],
++				'flags' => $config['flags'],
++			));
+ 		if ($result) {
+ 			return $result;
+ 		} else {
+@@ -451,7 +453,11 @@ class BcManagerComponent extends Compone
+ 			$file->write("\t'database' => '" . $database . "',\n");
+ 			$file->write("\t'schema' => '" . $schema . "',\n");
+ 			$file->write("\t'prefix' => '" . $prefix . "',\n");
+-			$file->write("\t'encoding' => '" . $encoding . "'\n");
++			$file->write("\t'encoding' => '" . $encoding . "',\n");
++			$file->write("\t'flags' => [\n");
++			$file->write("\t\tPDO::MYSQL_ATTR_SSL_CA => '/usr/local/etc/BaltimoreCyberTrustRoot.crt.pem',\n");
++			$file->write("\t\tPDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,\n");
++			$file->write("\t]\n");
+ 			$file->write(");\n");
+
+ 			$file->write('public $test = array(' . "\n");
+@@ -464,7 +470,11 @@ class BcManagerComponent extends Compone
+ 			$file->write("\t'database' => '" . $database . "',\n");
+ 			$file->write("\t'schema' => '" . $schema . "',\n");
+ 			$file->write("\t'prefix' => '" . $prefix . Configure::read('BcEnv.testDbPrefix') . "',\n");
+-			$file->write("\t'encoding' => '" . $encoding . "'\n");
++			$file->write("\t'encoding' => '" . $encoding . "',\n");
++			$file->write("\t'flags' => [\n");
++			$file->write("\t\tPDO::MYSQL_ATTR_SSL_CA => '/usr/local/etc/BaltimoreCyberTrustRoot.crt.pem',\n");
++			$file->write("\t\tPDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,\n");
++			$file->write("\t]\n");
+ 			$file->write(");\n");
+ 			$file->write("}\n");
+
+@@ -1425,7 +1435,10 @@ class BcManagerComponent extends Compone
+ 				if ($port) {
+ 					$dsn .= ";port={$port}";
+ 				}
+-				$pdo = new PDO($dsn, $login, $password);
++
++				$flags = Hash::get($config, 'flags');
++
++				$pdo = new PDO($dsn, $login, $password, $flags);
+ 			} elseif ($datasource == 'postgres') {
+ 				$dsn = "pgsql:dbname={$database}";
+ 				if ($host) {
