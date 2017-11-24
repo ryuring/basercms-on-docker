@@ -3,9 +3,10 @@ FROM php:7.0.25-apache-jessie
 ARG version="4.0.8"
 
 COPY BaltimoreCyberTrustRoot.crt.pem /usr/local/etc/
-COPY BcManagerComponent.diff InstallationsController.diff /tmp/
+COPY BcManagerComponent.diff InstallationsController.diff sshd_config.diff /tmp/
 
-RUN apt-get update \
+RUN echo "root:Docker!" | chpasswd \
+    && apt-get update \
     && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -14,6 +15,9 @@ RUN apt-get update \
         openssl libssl-dev \
         libxml2-dev \
         unzip \
+        ssh \
+    && patch -u /etc/ssh/sshd_config < /tmp/sshd_config.diff \
+    && mkdir /var/run/sshd \
     && docker-php-ext-install -j$(nproc) iconv mcrypt pdo_mysql mbstring xml tokenizer zip \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
@@ -37,3 +41,8 @@ RUN apt-get update \
     && chmod go+w /var/www/basercms/css \
     && chmod go+w /var/www/basercms/js \
     && chmod go+w /var/www/basercms/app/db
+
+COPY docker-entrypoint /usr/local/bin/
+
+EXPOSE 2222 80
+ENTRYPOINT ["docker-entrypoint"]
