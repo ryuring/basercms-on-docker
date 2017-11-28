@@ -1,6 +1,6 @@
 FROM php:7.0.25-apache-jessie
 
-ARG version="4.0.8"
+ARG version="4.0.9"
 
 RUN apt-get update \
     && apt-get install -y \
