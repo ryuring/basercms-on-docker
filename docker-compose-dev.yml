@@ -3,4 +3,4 @@ version: '2'
 services:
   basercms:
     volumes:
-      - ./html:/var/www/basercms
+      - ./html:/var/www/basercms:cached
