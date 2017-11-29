@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    branches:
+      only:
+        - master
+    machine: true
+    environment:
+      - DOCKER_IMAGE_REPO: kaz29/basercms
+    working_directory: ~/basercms
+    steps:
+      - checkout
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: docker pull $DOCKER_IMAGE_REPO:latest
+      - run: docker build -t circleci --cache-from $DOCKER_IMAGE_REPO:latest .
+      - run: docker tag circleci $DOCKER_IMAGE_REPO:latest
+      - run: docker push $DOCKER_IMAGE_REPO:latest
