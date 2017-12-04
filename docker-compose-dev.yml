@@ -2,5 +2,6 @@ version: '2'
 
 services:
   basercms:
+    image: kaz29/basercms:dev
     volumes:
       - ./html:/var/www/basercms:cached

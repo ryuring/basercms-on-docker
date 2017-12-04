@@ -33,5 +33,3 @@ RUN apt-get update \
     && chmod go+w /var/www/basercms/css \
     && chmod go+w /var/www/basercms/js \
     && chmod go+w /var/www/basercms/app/db
-
-RUN docker-php-ext-enable opcache

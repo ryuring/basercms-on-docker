@@ -81,6 +81,14 @@ curl -o /var/www/basercms-${version}.zip https://basercms.net/packages/download/
 
 以下は、作者の環境でのビルド方法なので、独自にビルドする場合は各自ターゲット名は変更して下さい。
 
+### 通常版
+
 ```
 $ docker build -t kaz29/basercms .
+```
+
+### 開発版
+
+```
+$ docker build -t kaz29/basercms:dev -f Dockerfile.dev .
 ```
