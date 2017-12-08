@@ -2,6 +2,8 @@ version: '2'
 
 services:
   basercms:
-    image: kaz29/basercms:dev
+    image: baserproject/basercms:baserdev
     volumes:
-      - ./html:/var/www/basercms:cached
+      - /Users/ryuring/Documents/Projects/baserdev:/var/www/basercms:cached
+    environment:
+      PHP_IDE_CONFIG: "serverName=Docker"

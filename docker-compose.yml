@@ -15,7 +15,7 @@ services:
       MYSQL_DATABASE: "basercms"
   basercms:
     container_name: basercms
-    image: kaz29/basercms
+    image: baserproject/basercms
     ports:
       - "80:80"
     depends_on:
